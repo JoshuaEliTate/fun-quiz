@@ -8,6 +8,7 @@ var submit = document.querySelector("#submit")
 var startQuiz = document.querySelector("#startQuiz")
 var answers = document.querySelector("#answers")
 var q1 = document.querySelector("#q1")
+var score = document.querySelector("#score")
 
 var a1 = document.querySelector("#a1")
 var a2 = document.querySelector("#a2")
@@ -103,8 +104,15 @@ function displayNext(){
         timer.style.display="none"
         questions.style.display="none"
         results.style.display="block"
+        score.innerHTML=totalPoints
     }
 }
+
+highscores.addEventListener('click', function(){
+    intro.style.display="none"
+    startQuiz.style.display="none"
+    results.style.display="block"
+})
 
 // intro.style.display;"block";
 start.addEventListener('click', function(){

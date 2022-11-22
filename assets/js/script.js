@@ -9,39 +9,40 @@ var startQuiz = document.querySelector("#startQuiz")
 var answers = document.querySelector("#answers")
 var q1 = document.querySelector("#q1")
 var score = document.querySelector("#score")
-
+var back = document.querySelector("#back")
 var a1 = document.querySelector("#a1")
 var a2 = document.querySelector("#a2")
 var a3 = document.querySelector("#a3")
 var a4 = document.querySelector("#a4")
 
 var totalPoints = 0
-var time = 10
+var time = 29
 var seconds = 0
 var correct = "true"
 var incorrect = "false"
-var nextQuestion = 1
+var nextQuestion = 0
 
 
 
 var theTimer = function startTimer(){
-    setInterval(function(){
-        if (seconds >= -10 ){
-        timer.innerHTML=time + seconds;
-        seconds--; 
-        } else {
-            timer.style.display="none"
-            questions.style.display="none"
-            results.style.display="block"
-        }
+    var stopTimer = setInterval(function(){
+
+        if (nextQuestion ===5 || nextQuestion===0) {
+            clearInterval(stopTimer)
+            return
+        } else if (seconds >= 29){
+            clearInterval(stopTimer)
+            return
+        } else if (seconds <= 29){
+            timer.innerHTML=time - seconds;
+            seconds++; 
+        } 
+        console.log(seconds)
     },1000)
     intro.style.display="none"
     startQuiz.style.display="none"
 }
 
-// function {
-
-// }
 
 function showQuestion1(){
     questions.setAttribute("questions", 1)
@@ -104,7 +105,11 @@ function displayNext(){
         timer.style.display="none"
         questions.style.display="none"
         results.style.display="block"
-        score.innerHTML=totalPoints
+        timePoints=(time - seconds) * 2
+        console.log(timePoints)
+        score.innerHTML=totalPoints + timePoints
+        console.log(nextQuestion)
+        clearInterval(theTimer)
     }
 }
 
@@ -114,20 +119,33 @@ highscores.addEventListener('click', function(){
     results.style.display="block"
 })
 
-// intro.style.display;"block";
+
 start.addEventListener('click', function(){
+    seconds = 0
+    totalPoints = 0
+    timer.innerHTML=30
+    timer.style.display="block"
+    nextQuestion= 1
     theTimer();
     showQuestion1();
 
 
 });
 
+
+back.addEventListener('click', function(){
+    intro.style.display="block"
+    startQuiz.style.display="block"
+    results.style.display="none"
+    nextQuestion = 0
+})
+
 a1.addEventListener('click', function(){
     var answerValue = a1.getAttribute("isCorrect")
     if (answerValue == correct){
-        totalPoints+=20
+        totalPoints+=30
     } else{
-        totalPoints-=10
+        totalPoints-=5
     }
     displayNext()
 
@@ -138,9 +156,9 @@ a1.addEventListener('click', function(){
 a2.addEventListener('click', function(){
     var answerValue = a2.getAttribute("isCorrect")
     if (answerValue == correct){
-        totalPoints+=20
+        totalPoints+=30
     }else{
-        totalPoints-=10
+        totalPoints-=5
     }
     displayNext()
 
@@ -150,9 +168,9 @@ a2.addEventListener('click', function(){
 a3.addEventListener('click', function(){
     var answerValue = a3.getAttribute("isCorrect")
     if (answerValue == correct){
-        totalPoints+=20
+        totalPoints+=30
     }else{
-        totalPoints-=10
+        totalPoints-=5
     }
     displayNext()
 

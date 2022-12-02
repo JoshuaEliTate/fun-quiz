@@ -2,18 +2,23 @@ var timer = document.querySelector("#timer");
 var start = document.querySelector("#start")
 var intro = document.querySelector("#intro")
 var questions = document.querySelector("#questions")
-var results = document.querySelector("#results")
+// var name= document.getElementById("name")
 var highscores = document.querySelector("#highscores")
+// var initialsButton= document.getElementById("enterInitials")
+// var initialsInput = document.getElementById("initials")
+var results= document.getElementById("results")
 var submit = document.querySelector("#submit")
 var startQuiz = document.querySelector("#startQuiz")
 var answers = document.querySelector("#answers")
+// var listOfScores = document.querySelector("#listOfScores")
 var q1 = document.querySelector("#q1")
 var score = document.querySelector("#score")
 var back = document.querySelector("#back")
 var a1 = document.querySelector("#a1")
 var a2 = document.querySelector("#a2")
 var a3 = document.querySelector("#a3")
-var a4 = document.querySelector("#a4")
+
+
 
 var totalPoints = 0
 var time = 29
@@ -22,7 +27,7 @@ var correct = "true"
 var incorrect = "false"
 var nextQuestion = 0
 
-
+var allHighScores = JSON.parse(localStorage.getItem('highscores'))
 
 var theTimer = function startTimer(){
     var stopTimer = setInterval(function(){
@@ -107,8 +112,10 @@ function displayNext(){
         results.style.display="block"
         timePoints=(time - seconds) * 2
         console.log(timePoints)
-        score.innerHTML=totalPoints + timePoints
-        console.log(nextQuestion)
+        var finalscore= document.createElement('li')
+        finalscore.innerHTML=totalPoints + timePoints
+        score.append(finalscore)
+        console.log(finalscore)
         clearInterval(theTimer)
     }
 }
@@ -116,6 +123,13 @@ function displayNext(){
 highscores.addEventListener('click', function(){
     intro.style.display="none"
     startQuiz.style.display="none"
+    // listOfScores.innerHTML=""
+//     highscores.sort(function(a,b){return b.totalScore - a.totalScore})
+//     for(var i=0;i<allHighScores.length;i++){
+//         var newScoreElement= document.createElement('li');
+//         newScoreElement.innerHTML=allHighScores[i].initials + " "+allHighScores[i].totalScore
+//         listOfScores.append(newScoreElement);
+//     }
     results.style.display="block"
 })
 
@@ -145,7 +159,7 @@ a1.addEventListener('click', function(){
     if (answerValue == correct){
         totalPoints+=30
     } else{
-        totalPoints-=5
+        totalPoints-=20
     }
     displayNext()
 
@@ -158,7 +172,7 @@ a2.addEventListener('click', function(){
     if (answerValue == correct){
         totalPoints+=30
     }else{
-        totalPoints-=5
+        totalPoints-=20
     }
     displayNext()
 
@@ -170,7 +184,7 @@ a3.addEventListener('click', function(){
     if (answerValue == correct){
         totalPoints+=30
     }else{
-        totalPoints-=5
+        totalPoints-=20
     }
     displayNext()
 
@@ -180,9 +194,9 @@ a3.addEventListener('click', function(){
 a4.addEventListener('click', function(){
     var answerValue = a4.getAttribute("isCorrect");
     if (answerValue == correct){
-        totalPoints+=20
+        totalPoints+=30
     }else{
-        totalPoints-=10
+        totalPoints-=20
     }
     displayNext()
 
@@ -191,3 +205,19 @@ a4.addEventListener('click', function(){
     
 });
 
+// initialsButton.addEventListener('click',function(){
+//     var name={
+//         initials:initialsInput.value,
+//         totalScore: score
+//     }
+//     if(allHighScores){
+//         allHighScores.push(result)
+//     } else{
+//         allHighScores = [result]
+//     }
+//     localStorage.setItem('highscores', JSON.stringify(allHighScores))
+//     initialsInput.value =""
+//     name.style.display="none";
+//     intro.style.display="block";
+//     highscores.style.display="block";
+// })

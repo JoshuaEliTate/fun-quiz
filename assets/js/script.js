@@ -2,23 +2,20 @@ var timer = document.querySelector("#timer");
 var start = document.querySelector("#start")
 var intro = document.querySelector("#intro")
 var questions = document.querySelector("#questions")
-// var name= document.getElementById("name")
-var highscores = document.querySelector("#highscores")
-// var initialsButton= document.getElementById("enterInitials")
-// var initialsInput = document.getElementById("initials")
+var somename= document.getElementById("name")
+var initialsButton= document.getElementById("enterInitials")
+var initialsInput = document.getElementById("initials")
 var results= document.getElementById("results")
 var submit = document.querySelector("#submit")
 var startQuiz = document.querySelector("#startQuiz")
 var answers = document.querySelector("#answers")
-// var listOfScores = document.querySelector("#listOfScores")
+var listOfScores = document.querySelector("#listOfScores")
 var q1 = document.querySelector("#q1")
 var score = document.querySelector("#score")
 var back = document.querySelector("#back")
 var a1 = document.querySelector("#a1")
 var a2 = document.querySelector("#a2")
 var a3 = document.querySelector("#a3")
-
-
 
 var totalPoints = 0
 var time = 29
@@ -27,7 +24,7 @@ var correct = "true"
 var incorrect = "false"
 var nextQuestion = 0
 
-var allHighScores = JSON.parse(localStorage.getItem('highscores'))
+var allHighScores = JSON.parse(localStorage.getItem('storedData'))
 
 var theTimer = function startTimer(){
     var stopTimer = setInterval(function(){
@@ -37,12 +34,15 @@ var theTimer = function startTimer(){
             return
         } else if (seconds >= 29){
             clearInterval(stopTimer)
+            questions.style.display="none"
+            timer.style.display="none"
+            somename.style.display="block"
+            timePoints= 0
             return
         } else if (seconds <= 29){
             timer.innerHTML=time - seconds;
             seconds++; 
         } 
-        console.log(seconds)
     },1000)
     intro.style.display="none"
     startQuiz.style.display="none"
@@ -109,30 +109,11 @@ function displayNext(){
     } else if (nextQuestion ===4){
         timer.style.display="none"
         questions.style.display="none"
-        results.style.display="block"
+        somename.style.display="block"
         timePoints=(time - seconds) * 2
-        console.log(timePoints)
-        var finalscore= document.createElement('li')
-        finalscore.innerHTML=totalPoints + timePoints
-        score.append(finalscore)
-        console.log(finalscore)
         clearInterval(theTimer)
     }
 }
-
-highscores.addEventListener('click', function(){
-    intro.style.display="none"
-    startQuiz.style.display="none"
-    // listOfScores.innerHTML=""
-//     highscores.sort(function(a,b){return b.totalScore - a.totalScore})
-//     for(var i=0;i<allHighScores.length;i++){
-//         var newScoreElement= document.createElement('li');
-//         newScoreElement.innerHTML=allHighScores[i].initials + " "+allHighScores[i].totalScore
-//         listOfScores.append(newScoreElement);
-//     }
-    results.style.display="block"
-})
-
 
 start.addEventListener('click', function(){
     seconds = 0
@@ -162,10 +143,7 @@ a1.addEventListener('click', function(){
         totalPoints-=20
     }
     displayNext()
-
-    console.log(totalPoints)
     nextQuestion++
-
 });
 a2.addEventListener('click', function(){
     var answerValue = a2.getAttribute("isCorrect")
@@ -175,8 +153,6 @@ a2.addEventListener('click', function(){
         totalPoints-=20
     }
     displayNext()
-
-    console.log(totalPoints)
     nextQuestion++
 });
 a3.addEventListener('click', function(){
@@ -187,8 +163,6 @@ a3.addEventListener('click', function(){
         totalPoints-=20
     }
     displayNext()
-
-    console.log(totalPoints)
     nextQuestion++
 });
 a4.addEventListener('click', function(){
@@ -199,25 +173,47 @@ a4.addEventListener('click', function(){
         totalPoints-=20
     }
     displayNext()
-
-    console.log(totalPoints)
     nextQuestion++
-    
 });
 
-// initialsButton.addEventListener('click',function(){
-//     var name={
-//         initials:initialsInput.value,
-//         totalScore: score
-//     }
-//     if(allHighScores){
-//         allHighScores.push(result)
-//     } else{
-//         allHighScores = [result]
-//     }
-//     localStorage.setItem('highscores', JSON.stringify(allHighScores))
-//     initialsInput.value =""
-//     name.style.display="none";
-//     intro.style.display="block";
-//     highscores.style.display="block";
-// })
+
+highscores.addEventListener('click', function(){
+    intro.style.display="none"
+    startQuiz.style.display="none"
+    listOfScores.innerHTML=""
+    allHighScores.sort(function(a,b){return b.storedScore - a.storedScore})
+    for(var i=0;i<allHighScores.length;i++){
+        var newScoreElement= document.createElement('li');
+        newScoreElement.innerHTML=allHighScores[i].storedName + " "+allHighScores[i].storedScore
+        listOfScores.append(newScoreElement);
+    }
+    results.style.display="block"
+})
+
+initialsButton.addEventListener('click', function(){
+    nameinput= initials.value
+    somename.style.display="none"
+    results.style.display="block"
+    var veryfinalpoints = totalPoints + timePoints
+
+    var storedData={
+        storedName:initialsInput.value,
+        storedScore: veryfinalpoints
+    }
+        if(allHighScores){
+        allHighScores.push(storedData)
+    } else{
+        allHighScores = [storedData]
+    }
+
+    localStorage.setItem('storedData', JSON.stringify(allHighScores))
+    listOfScores.innerHTML=""
+    allHighScores.sort(function(a,b){return b.storedScore - a.storedScore})
+    for(var i=0;i<allHighScores.length;i++){
+        var newScoreElement= document.createElement('li');
+        newScoreElement.innerHTML=allHighScores[i].storedName + " "+allHighScores[i].storedScore
+        listOfScores.append(newScoreElement);
+    }
+    nameinput=""
+    initials.value=""
+})

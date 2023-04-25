@@ -140,6 +140,7 @@ a1.addEventListener('click', function(){
     if (answerValue == correct){
         totalPoints+=30
     } else{
+        seconds+= 3
         totalPoints-=20
     }
     displayNext()
@@ -150,6 +151,7 @@ a2.addEventListener('click', function(){
     if (answerValue == correct){
         totalPoints+=30
     }else{
+        seconds+= 3
         totalPoints-=20
     }
     displayNext()
@@ -160,6 +162,7 @@ a3.addEventListener('click', function(){
     if (answerValue == correct){
         totalPoints+=30
     }else{
+        seconds+= 3
         totalPoints-=20
     }
     displayNext()
@@ -170,6 +173,7 @@ a4.addEventListener('click', function(){
     if (answerValue == correct){
         totalPoints+=30
     }else{
+        seconds+= 3
         totalPoints-=20
     }
     displayNext()
